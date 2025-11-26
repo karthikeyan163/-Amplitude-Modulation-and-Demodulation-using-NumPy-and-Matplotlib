@@ -23,72 +23,82 @@ __Algorithm__:
 4. Generate Carrier Signal: Define the carrier signal as a cosine wave. 
 5. Modulate Signal: Apply the AM formula to obtain the modulated signal. 
 6. Plot the Signals: Use Matplotlib to plot the message signal, carrier signal, and modulated signal.
-
+   
 __Program__:
+```
+import numpy as np
+import matplotlib.pyplot as plt
 
-    import numpy as np 
-    import matplotlib.pyplot as plt 
-    from scipy.signal import hilbert 
+# Parameters
+Am = 8.9      # Message amplitude
+Ac = 17.8      # Carrier amplitude
+fm = 550       # Message frequency
+fc = 5500       # Carrier frequency
+fs = 20000      # Sampling frequency (must be high for smooth signal)
 
-    A_c = 1.0  
-    f_c = 100 
-    f_m = 5    
-    A_m = 0.5   
-    sampling_frequency = 1000  
-    dura on = 1  
+t = np.arange(0, 0.01, 1/fs)   # Time vector
 
-    t = np.linspace(0, dura on, int(sampling_frequency * dura on)) 
+# Message Signal
+message = Am * np.cos(2 * np.pi * fm * t)
 
-    m_t = A_m * np.cos(2 * np.pi * f_m * t)  
-    c_t = A_c * np.cos(2 * np.pi * f_c * t) 
+# Carrier Signal
+carrier = Ac * np.cos(2 * np.pi * fc * t)
 
-    s_t = (1 + m_t) * c_t  
-    analy c_signal = hilbert(s_t) 
-    envelope = np.abs(analy c_signal)
-    demodulated_message = (envelope - A_c) / A_m 
-    plt.figure(figsize=(12, 10)) 
-    plt.subplot(4, 1, 1) 
-    plt.plot(t, m_t) 
-    plt. tle('Original Message Signal') 
-    plt.xlabel('Time [s]') 
-    plt.ylabel('Amplitude') 
-    plt.grid(True) 
+# Modulation Index
+m = Am / Ac
 
-    plt.subplot(4, 1, 2) 
-    plt.plot(t, c_t) 
-    plt. tle('Carrier Signal') 
-    plt.xlabel('Time [s]') 
-    plt.ylabel('Amplitude') 
-    plt.grid(True) 
+# AM Modulated Signal
+am_signal = Ac * (1 + m * np.cos(2 * np.pi * fm * t)) * np.cos(2 * np.pi * fc * t)
 
-    plt.subplot(4, 1, 3) 
-    plt.plot(t, s_t) 
-    plt. tle('Amplitude Modulated (AM) Signal') 
-    plt.xlabel('Time [s]') 
-    plt.ylabel('Amplitude') 
-    plt.grid(True) 
+# Demodulation (Envelope Detector)
+demodulated = np.abs(am_signal)
 
-    plt.subplot(4, 1, 4) 
-    plt.plot(t, demodulated_message) 
-    plt. tle('Demodulated Signal') 
-    plt.xlabel('Time [s]') 
-    plt.ylabel('Amplitude') 
-    plt.grid(True)  
-    plt. ght_layout() 
-    plt.show()
+# Plotting
+plt.figure(figsize=(12,10))
 
- __Tabulation__:
+plt.subplot(4,1,1)
+plt.plot(t, message)
+plt.title("Message Signal")
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
 
- ![WhatsApp Image 2025-11-26 at 19 21 44_6097422c](https://github.com/user-attachments/assets/eafe8eab-aa00-4c19-a8a7-b97fae0867eb)
+plt.subplot(4,1,2)
+plt.plot(t, carrier)
+plt.title("Carrier Signal")
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
 
- ![WhatsApp Image 2025-11-26 at 19 21 45_bb4e4c8c](https://github.com/user-attachments/assets/7275eaef-adf6-45aa-8e8f-18491e96337f)
+plt.subplot(4,1,3)
+plt.plot(t, am_signal)
+plt.title("AM Modulated Signal")
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
 
+plt.subplot(4,1,4)
+plt.plot(t, demodulated)
+plt.title("Demodulated Signal (Envelope)")
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
+
+plt.tight_layout()
+plt.show()
+```
+__Calculation__:
+
+![WhatsApp Image 2025-11-26 at 23 29 34_2af13561](https://github.com/user-attachments/assets/335d619b-1c44-4adf-8698-92ef6fd7bd75)
 
  __Output__:
+<img width="1189" height="990" alt="image" src="https://github.com/user-attachments/assets/dfefa35f-c507-40a9-b833-8efa8eda4ff7" />
 
-<img width="1198" height="990" alt="image" src="https://github.com/user-attachments/assets/30c20494-ca0b-4795-acc3-8a6f8b69b954" />
 
 
  __Result__:
 
-  Thus the AM demodulation and modulation is verified using python successfully.
+
+![WhatsApp Image 2025-11-26 at 23 30 39_bc794393](https://github.com/user-attachments/assets/1a95dae0-83ec-438c-9224-9495aa2daf6b)
+
+
+
+ 
+
+
